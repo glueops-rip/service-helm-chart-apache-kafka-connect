@@ -1,5 +1,5 @@
 apiVersion: v2
-name: kafka-connect
+name: apache-kafka-connect
 description: A Helm chart for deploying a kafka connect cluster
 
 # A chart can be either an 'application' or a 'library' chart.
