@@ -1,0 +1,59 @@
+# https://raw.githubusercontent.com/strimzi/strimzi-kafka-operator/main/examples/connect/kafka-connect.yaml
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaConnect
+metadata:
+  name: {{ .Values.clusterName }}
+  annotations:
+#  # use-connector-resources configures this KafkaConnect
+#  # to use KafkaConnector resources to avoid
+#  # needing to call the Connect REST API directly
+    strimzi.io/use-connector-resources: "true"
+spec:
+  version: 3.3.1
+  replicas: 1
+  bootstrapServers: {{ .Values.bootstrapServers }}:9093
+  tls:
+    trustedCertificates:
+      - secretName: {{ .Values.kafkaClusterName }}-cluster-ca-cert
+        certificate: ca.crt
+  config:
+    plugin.path: /opt/kafka/plugins
+    group.id: connect-cluster
+    offset.storage.topic: connect-cluster-offsets
+    config.storage.topic: connect-cluster-configs
+    status.storage.topic: connect-cluster-status
+    # -1 means it will use the default replication factor configured in the broker
+    config.storage.replication.factor: -1
+    offset.storage.replication.factor: -1
+    status.storage.replication.factor: -1
+  build:
+    output:
+      type: docker
+      image: glueops/test-kafka:0.0.3
+      pushSecret: regcred
+    plugins:
+      - name: debezium-connector-mysql
+        # Don't use maven like this.  It creates an actual build of the connector.  Just get the zip as below.
+        # artifacts:
+        #   - type: maven
+        #     group: io.debezium
+        #     artifact: debezium-connector-mysql
+        #     version: 1.9.5.Final
+        #     - name: debezium-mysql-connector
+        artifacts:
+        #  - type: zip
+        #    url: https://maven.repository.redhat.com/ga/io/debezium/debezium-connector-mysql/1.9.5.Final-redhat-00001/debezium-connector-mysql-1.9.5.Final-redhat-00001-plugin.zip
+          - type: zip
+            url: https://repo1.maven.org/maven2/io/debezium/debezium-connector-mysql/2.0.1.Final/debezium-connector-mysql-2.0.1.Final-plugin.zip
+        #  - type: jar
+        #    url: https://repo1.maven.org/maven2/io/debezium/debezium-connector-mysql/2.0.1.Final/debezium-connector-mysql-2.0.1.Final.jar
+      - name: sink-jdbc-connector
+        artifacts:
+          - type: jar
+            url: https://packages.confluent.io/maven/io/confluent/kafka-connect-jdbc/10.0.11/kafka-connect-jdbc-10.0.11.jar
+          - type: jar
+            url: https://repo1.maven.org/maven2/org/postgresql/postgresql/42.5.1/postgresql-42.5.1.jar
+  template:
+    pod:
+      imagePullSecrets:
+        - name: regcred
