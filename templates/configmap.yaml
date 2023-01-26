@@ -1,7 +1,7 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: kconnect-metrics-{{ .Values.clusterName }}
+  name: kconnect-metrics-{{ .Values.connect_cluster_name }}
   labels:
     app: strimzi
 data:
