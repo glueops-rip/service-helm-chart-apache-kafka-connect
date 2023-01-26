@@ -10,8 +10,8 @@ metadata:
     strimzi.io/use-connector-resources: "true"
 spec:
   version: 3.3.1
-  replicas: 1
-  bootstrapServers: {{ .Values.bootstrapServers }}:9093
+  replicas: {{ .Values.connect_replicas }}
+  bootstrapServers: {{ .Values.kafka_cluster_bootstrap_servers_svc_name }}:9093
   tls:
     trustedCertificates:
       - secretName: {{ .Values.kafka_cluster_name }}-cluster-ca-cert
