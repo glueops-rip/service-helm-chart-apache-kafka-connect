@@ -3,8 +3,14 @@
 # Declare variables to be passed into your templates.
 
 
-clusterName: "kafka-connect-cluster"
+connect_cluster_name: nil
 
 
 bootstrapServers: nil
-kafkaClusterName: nil
+kafka_cluster_name: nil
+fullyQualifiedDockerImageToPublish: glueops/test-kafka:0.0.3
+docker_config_registry_push_credentials: eyJhdXRocyI6eyJodHRwczovL2luZGV4LmRvY2tlci5pby92MS8iOnsidXNlcm5hbWUiOiJyZWdpc3RyeXVzZXJuYW1lIiwicGFzc3dvcmQiOiJkY2tyX3BhdF9YWFhYWFhYWFhYWFhYWCIsImVtYWlsIjoiZ2x1ZW9wcy1pcy1hd2Vzb21lQGdsdWVvcHMucm9ja3MiLCJhdXRoIjoiY21WbmFYTjBjbmwxYzJWeWJtRnRaVHBrWTJ0eVgzQmhkRjlZV0ZoWVdGaFlXRmhZV0ZoWVdBPT0ifX19
+
+
+
+

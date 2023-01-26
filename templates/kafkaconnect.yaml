@@ -2,7 +2,7 @@
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaConnect
 metadata:
-  name: {{ .Values.clusterName }}
+  name: {{ .Values.connect_cluster_name }}
   annotations:
 #  # use-connector-resources configures this KafkaConnect
 #  # to use KafkaConnector resources to avoid
@@ -14,14 +14,14 @@ spec:
   bootstrapServers: {{ .Values.bootstrapServers }}:9093
   tls:
     trustedCertificates:
-      - secretName: {{ .Values.kafkaClusterName }}-cluster-ca-cert
+      - secretName: {{ .Values.kafka_cluster_name }}-cluster-ca-cert
         certificate: ca.crt
   config:
     plugin.path: /opt/kafka/plugins
-    group.id: connect-cluster
-    offset.storage.topic: connect-cluster-offsets
-    config.storage.topic: connect-cluster-configs
-    status.storage.topic: connect-cluster-status
+    group.id: {{ .Values.connect_cluster_name }}
+    offset.storage.topic: {{ .Values.connect_cluster_name }}-offsets
+    config.storage.topic: {{ .Values.connect_cluster_name }}-configs
+    status.storage.topic: {{ .Values.connect_cluster_name }}-status
     # -1 means it will use the default replication factor configured in the broker
     config.storage.replication.factor: -1
     offset.storage.replication.factor: -1
@@ -29,8 +29,8 @@ spec:
   build:
     output:
       type: docker
-      image: glueops/test-kafka:0.0.3
-      pushSecret: regcred
+      image: {{ .Values.fullyQualifiedDockerImageToPublish }}
+      pushSecret: regcred-{{ .Values.connect_cluster_name }}
     plugins:
       - name: debezium-connector-mysql
         # Don't use maven like this.  It creates an actual build of the connector.  Just get the zip as below.
@@ -61,6 +61,5 @@ spec:
     type: jmxPrometheusExporter
     valueFrom:
       configMapKeyRef:
-        name: kconnect-metrics-{{ .Values.clusterName }}
+        name: kconnect-metrics-{{ .Values.connect_cluster_name }}
         key: metrics-config.yml
-
