@@ -57,3 +57,10 @@ spec:
     pod:
       imagePullSecrets:
         - name: regcred
+  metricsConfig:
+    type: jmxPrometheusExporter
+    valueFrom:
+      configMapKeyRef:
+        name: kconnect-metrics-{{ .Values.clusterName }}
+        key: metrics-config.yml
+
