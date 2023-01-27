@@ -4,7 +4,7 @@
 
 
 connect_cluster_name: nil
-
+kafka_connect_version: 3.3.2
 connect_replicas: 1
 kafka_cluster_bootstrap_servers_svc_name: dev-kafka-bootstrap.development.svc
 kafka_cluster_name: dev

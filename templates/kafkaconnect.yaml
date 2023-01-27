@@ -9,7 +9,7 @@ metadata:
 #  # needing to call the Connect REST API directly
     strimzi.io/use-connector-resources: "true"
 spec:
-  version: 3.3.1
+  version: {{ .Values.kafka_connect_version }}
   replicas: {{ .Values.connect_replicas }}
   bootstrapServers: {{ .Values.kafka_cluster_bootstrap_servers_svc_name }}:9093
   tls:
