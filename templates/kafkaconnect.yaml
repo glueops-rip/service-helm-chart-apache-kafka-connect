@@ -56,7 +56,7 @@ spec:
   template:
     pod:
       imagePullSecrets:
-        - name: regcred
+        - name: regcred-{{ .Values.connect_cluster_name }}
   metricsConfig:
     type: jmxPrometheusExporter
     valueFrom:
