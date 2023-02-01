@@ -17,6 +17,9 @@ spec:
       - secretName: {{ .Values.kafka_cluster_name }}-cluster-ca-cert
         certificate: ca.crt
   config:
+    config.providers: secrets,configmaps
+    config.providers.secrets.class: io.strimzi.kafka.KubernetesSecretConfigProvider
+    config.providers.configmaps.class: io.strimzi.kafka.KubernetesConfigMapConfigProvider
     plugin.path: /opt/kafka/plugins
     group.id: {{ .Values.connect_cluster_name }}
     offset.storage.topic: {{ .Values.connect_cluster_name }}-offsets
