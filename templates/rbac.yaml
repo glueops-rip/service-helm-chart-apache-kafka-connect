@@ -1,0 +1,20 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ .Values.connect_cluster_name }}-config-role
+rules:
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ .Values.connect_cluster_name }}-config-role-binding
+subjects:
+- kind: ServiceAccount
+  name: {{ .Values.connect_cluster_name }}-connect
+roleRef:
+  kind: Role
+  name: {{ .Values.connect_cluster_name }}-config-role
+  apiGroup: rbac.authorization.k8s.io
