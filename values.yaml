@@ -4,12 +4,12 @@
 
 
 connect_cluster_name: nil
+vault_path: nil
 kafka_connect_version: 3.3.2
 connect_replicas: 1
 kafka_cluster_bootstrap_servers_svc_name: dev-kafka-bootstrap.development.svc
 kafka_cluster_name: dev
 fullyQualifiedDockerImageToPublish: glueops/test-kafka:0.0.3
-docker_config_registry_push_credentials: eyJhdXRocyI6eyJodHRwczovL2luZGV4LmRvY2tlci5pby92MS8iOnsidXNlcm5hbWUiOiJ1c2VybmFtZSIsInBhc3N3b3JkIjoiZGNrcl9wYXRfZ29lc2hlcmUiLCJlbWFpbCI6InVzZXJuYW1lQGV4YW1wbGUuY29tIiwiYXV0aCI6ImRYTmxjbTVoYldVNlpHTnJjbDl3WVhSZloyOWxjMmhsY21VPSJ9fX0=
 
 
 
